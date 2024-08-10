@@ -7,17 +7,64 @@
     android:layout_height="match_parent"
     tools:context=".presentation.home.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+ <com.google.android.material.appbar.MaterialToolbar
+     android:id="@+id/homeToolbar"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:background="?attr/colorPrimary"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toTopOf="parent"
+     app:title="E-Market"
+     app:titleTextAppearance="@style/MyToolbarBigTitleTextAppearance" />
 
-  
+ <androidx.appcompat.widget.AppCompatEditText
+     android:id="@+id/homeSearchbar"
+     style="@style/SearchBarStyle"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginStart="@dimen/_16sdp"
+     android:layout_marginTop="@dimen/_14sdp"
+     android:layout_marginEnd="@dimen/_16sdp"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.5"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/homeToolbar" />
 
+
+ <TextView
+     android:id="@+id/homeFiltersText"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:fontFamily="@font/montserrat_bold"
+     android:text="Filters:"
+     android:textSize="16sp"
+     app:layout_constraintBottom_toBottomOf="@+id/homeSelectFilterText"
+     app:layout_constraintStart_toStartOf="@+id/homeSearchbar"
+     app:layout_constraintTop_toTopOf="@+id/homeSelectFilterText" />
+
+ <TextView
+     android:id="@+id/homeSelectFilterText"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="@dimen/_10sdp"
+     android:background="@color/mainGrey"
+     android:fontFamily="@font/montserrat_light"
+     android:paddingHorizontal="@dimen/_8sdp"
+     android:paddingVertical="@dimen/_4sdp"
+     android:text="Select Filter"
+     android:textSize="14sp"
+     app:layout_constraintEnd_toEndOf="@+id/homeSearchbar"
+     app:layout_constraintTop_toBottomOf="@+id/homeSearchbar" />
+
+ <androidx.recyclerview.widget.RecyclerView
+     android:id="@+id/homeRecyclerview"
+     android:layout_width="match_parent"
+     android:layout_height="0dp"
+     app:layout_constraintBottom_toBottomOf="parent"
+     app:layout_constraintEnd_toEndOf="parent"
+     app:layout_constraintHorizontal_bias="0.5"
+     app:layout_constraintStart_toStartOf="parent"
+     app:layout_constraintTop_toBottomOf="@+id/homeSelectFilterText"
+      />
 </androidx.constraintlayout.widget.ConstraintLayout>
