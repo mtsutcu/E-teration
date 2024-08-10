@@ -1,16 +1,11 @@
 package com.mtsapps.eteration.presentation.favourites
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.mtsapps.eteration.R
 import com.mtsapps.eteration.commons.BaseFragment
 import com.mtsapps.eteration.databinding.FragmentFavouritesBinding
-import com.mtsapps.eteration.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavouritesFragment : BaseFragment<FragmentFavouritesBinding,FavouritesUIEvent,FavouritesUIState,FavouritesUIEffect,FavouritesViewModel>(FragmentFavouritesBinding::inflate){
     override val viewModel: FavouritesViewModel by viewModels()
 

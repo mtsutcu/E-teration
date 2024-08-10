@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     kotlin("kapt")
+    alias(libs.plugins.google.dagger.hilt)
+
 }
 
 android {
@@ -25,6 +27,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL", "\"https://5fc9346b2af77700165ae514.mockapi.io/\"")
+
+        }
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://5fc9346b2af77700165ae514.mockapi.io/\"")
+            multiDexEnabled = true
         }
     }
     compileOptions {
@@ -36,6 +44,9 @@ android {
     }
     viewBinding {
         enable = true
+    }
+    buildFeatures {
+        buildConfig = true
     }
 
 }
@@ -51,12 +62,19 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
-    kapt(libs.hilt.android.compiler)
     implementation (libs.androidx.activity.ktx)
     implementation (libs.androidx.fragment.ktx)
     implementation (libs.androidx.lifecycle.livedata.ktx)
     implementation (libs.androidx.lifecycle.runtime.ktx)
     implementation (libs.sdp.android)
+    implementation (libs.gson)
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+
+    kapt(libs.google.dagger.hilt.compiler)
+    implementation(libs.google.dagger.hilt)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
