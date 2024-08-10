@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.launch
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
+
 abstract class BaseFragment<VB : ViewBinding, Event : UIEvent, State : UIState, Effect : UIEffect, VM : BaseViewModel<Event, State, Effect>>(
     private val inflate: Inflate<VB>
 ) : Fragment() {
