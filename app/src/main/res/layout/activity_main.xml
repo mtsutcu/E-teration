@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         app:labelVisibilityMode="unlabeled"
         android:background="@color/white"
+        app:itemIconTint="@drawable/bottom_nav_icon_selector"
         app:itemActiveIndicatorStyle="@style/Theme.BottomNavigationView.ActiveIndicator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,20 +1,92 @@
 package com.mtsapps.eteration.presentation.home
 
+import ProductLoadStateAdapter
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.GridLayoutManager
 import com.mtsapps.eteration.commons.BaseFragment
+import com.mtsapps.eteration.commons.utils.GridSpacingItemDecoration
+import com.mtsapps.eteration.commons.utils.changeVisibility
+import com.mtsapps.eteration.commons.utils.clickWithDebounce
 import com.mtsapps.eteration.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding,HomeUIEvent,HomeUIState,HomeUIEffect,HomeViewModel>(FragmentHomeBinding::inflate){
+class HomeFragment :
+    BaseFragment<FragmentHomeBinding, HomeUIEvent, HomeUIState, HomeUIEffect, HomeViewModel>(
+        FragmentHomeBinding::inflate
+    ) {
 
     override val viewModel: HomeViewModel by viewModels()
 
-    override fun observeState(state: HomeUIState) {
-    }
-
     override fun handleEffect(effect: HomeUIEffect) {
+        when (effect) {
+            is HomeUIEffect.ShowToast -> {
+                Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun setupUI() {
+        super.setupUI()
+        val homeAdapter = HomeProductsAdapter(context = requireContext())
+        val recyclerView = binding.homeRecyclerview
+        val gridLayoutManager = GridLayoutManager(activity, 2)
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                val viewType = homeAdapter.getItemViewType(position)
+                return if (viewType == HomeProductsAdapter.LOADING_VIEW_TYPE) 1
+                else 2
+            }
+        }
+
+        recyclerView.apply {
+            layoutManager = gridLayoutManager
+            addItemDecoration(GridSpacingItemDecoration(16, requireContext()))
+            adapter = homeAdapter.withLoadStateFooter(footer = ProductLoadStateAdapter { homeAdapter.retry() })
+            setHasFixedSize(true)
+        }
+        lifecycleScope.launch {
+            viewModel.uiState.collectLatest {
+                homeAdapter.submitData(it.productList)
+            }
+        }
+        lifecycleScope.launch {
+            homeAdapter.loadStateFlow.collectLatest { loadState ->
+                when {
+                    loadState.refresh is LoadState.Error -> {
+                        viewModel.setEvent(HomeUIEvent.OnOpeningError)
+                    }
+
+                    loadState.append is LoadState.Error -> {
+                        viewModel.setEvent(HomeUIEvent.OnSetLoadingError((loadState.append as LoadState.Error).error))
+                    }
+
+                    loadState.prepend is LoadState.Error -> {
+                        viewModel.setEvent(HomeUIEvent.OnSetLoadingError((loadState.prepend as LoadState.Error).error))
+                    }
+                }
+            }
+        }
 
     }
 
+    override fun observeState(state: HomeUIState) {
+        binding.apply {
+            homeProgress.changeVisibility(state.isLoading)
+            homeRecyclerview.changeVisibility(!state.isLoading)
+            homeTryAgainButton.apply {
+                changeVisibility(state.isError)
+                clickWithDebounce {
+                    changeVisibility(false)
+                    viewModel.setEvent(HomeUIEvent.OnTryAgain)
+                }
+            }
+        }
+
+    }
 }

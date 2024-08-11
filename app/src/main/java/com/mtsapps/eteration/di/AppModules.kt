@@ -2,6 +2,7 @@ package com.mtsapps.eteration.di
 
 import com.mtsapps.eteration.BuildConfig
 import com.mtsapps.eteration.data.ApiService
+import com.mtsapps.eteration.data.ProductRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,4 +24,10 @@ object AppModules {
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideProductRepositoryImple(apiService: ApiService):ProductRepositoryImpl{
+        return ProductRepositoryImpl(apiService = apiService)
+    }
 }

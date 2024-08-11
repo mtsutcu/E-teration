@@ -39,9 +39,7 @@ abstract class BaseViewModel<Event : UIEvent, State : UIState, Effect : UIEffect
         }
     }
     private fun startInitialOperations() {
-        viewModelScope.launch {
             loadInitialData()
-        }
     }
     fun setEvent(event: Event) {
         viewModelScope.launch { _event.emit(event) }
@@ -56,7 +54,7 @@ abstract class BaseViewModel<Event : UIEvent, State : UIState, Effect : UIEffect
         val effectValue = builder()
         viewModelScope.launch { _effect.send(effectValue) }
     }
-    protected open suspend fun loadInitialData() {
+    protected open  fun loadInitialData() {
     }
     abstract fun handleEvent(event: Event)
 }
