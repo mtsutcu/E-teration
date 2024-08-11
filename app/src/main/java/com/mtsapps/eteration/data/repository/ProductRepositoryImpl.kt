@@ -1,7 +1,9 @@
-package com.mtsapps.eteration.data
+package com.mtsapps.eteration.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.mtsapps.eteration.data.remote.ApiService
+import com.mtsapps.eteration.data.remote.ProductPagingDataSource
 import com.mtsapps.eteration.domain.models.Product
 import com.mtsapps.eteration.domain.repository.ProductRepository
 

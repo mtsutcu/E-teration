@@ -1,4 +1,4 @@
-package com.mtsapps.eteration.data
+package com.mtsapps.eteration.data.remote
 
 import com.mtsapps.eteration.domain.models.Product
 import retrofit2.Response

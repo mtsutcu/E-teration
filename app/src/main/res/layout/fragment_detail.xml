@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_4sdp"
         android:fontFamily="@font/montserrat"
-        android:text="Price:"
+        android:text="@string/price"
         android:textColor="@color/myBlue"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/product_detail_price_text"
@@ -95,6 +95,8 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:background="@drawable/main_button_background"
         android:minHeight="0dp"
+        android:textSize="18sp"
+        android:fontFamily="@font/montserrat_bold"
         android:text="@string/add_to_cart"
         app:layout_constraintBottom_toBottomOf="@+id/product_detail_price_text"
         app:layout_constraintEnd_toEndOf="parent" />
