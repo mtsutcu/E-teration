@@ -29,9 +29,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding,DetailUIEvent,DetailUI
                 }
             }
             productDetailPriceText.text = product?.price
-            prdocutDetailName.text = product?.name
+            productDetailName.text = product?.name
             productDetailDescription.text = product?.description
-            prdocutDetailImage.getImageFromUrl(product?.image)
+            productDetailImage.getImageFromUrl(product?.image)
         }
     }
 
