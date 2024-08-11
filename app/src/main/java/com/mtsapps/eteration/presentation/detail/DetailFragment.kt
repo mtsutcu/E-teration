@@ -1,7 +1,10 @@
 package com.mtsapps.eteration.presentation.detail
 
+
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.mtsapps.eteration.commons.BaseFragment
+import com.mtsapps.eteration.commons.utils.getImageFromUrl
 import com.mtsapps.eteration.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,5 +18,21 @@ class DetailFragment : BaseFragment<FragmentDetailBinding,DetailUIEvent,DetailUI
     override fun observeState(state: DetailUIState) {
     }
 
+    override fun setupUI() {
+        super.setupUI()
+        val product = arguments?.let { DetailFragmentArgs.fromBundle(it).product }
+        binding.apply {
+            productDetailToolbar.apply {
+                title = product?.name
+                setNavigationOnClickListener {
+                    findNavController().navigateUp()
+                }
+            }
+            productDetailPriceText.text = product?.price
+            prdocutDetailName.text = product?.name
+            productDetailDescription.text = product?.description
+            prdocutDetailImage.getImageFromUrl(product?.image)
+        }
+    }
 
 }

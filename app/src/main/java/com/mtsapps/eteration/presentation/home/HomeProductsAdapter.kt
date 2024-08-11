@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.mtsapps.eteration.commons.utils.clickWithDebounce
+import com.mtsapps.eteration.commons.utils.getImageFromUrl
 import com.mtsapps.eteration.databinding.GridViewProductItemBinding
 import com.mtsapps.eteration.domain.models.Product
 
-class HomeProductsAdapter(private val context: Context
+class HomeProductsAdapter(private val context: Context,private val onAddToCartClick : (Product)->Unit,private val ontClick : (Product)->Unit
 ) : PagingDataAdapter<Product, HomeProductsAdapter.ProductViewHolder>(Product_COMPARATOR) {
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount && itemCount !=0){
@@ -38,11 +38,13 @@ class HomeProductsAdapter(private val context: Context
             binding.apply {
                 productItemPrice.text = product.price
                 productItemName.text = product.name
-                Glide.with(context)
-                    .load(product.image)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(productItemImage)
+                productItemImage.getImageFromUrl(product.image)
+                productItemButton.clickWithDebounce {
+                 onAddToCartClick.invoke(product)
+             }
+                root.clickWithDebounce {
+                    ontClick.invoke(product)
+                }
             }
 
         }

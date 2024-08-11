@@ -1,7 +1,10 @@
 package com.mtsapps.eteration.domain.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Product (
 
     @SerializedName("createdAt"   ) var createdAt   : String? = null,
@@ -13,4 +16,4 @@ data class Product (
     @SerializedName("brand"       ) var brand       : String? = null,
     @SerializedName("id"          ) var id          : String? = null
 
-)
+):Parcelable

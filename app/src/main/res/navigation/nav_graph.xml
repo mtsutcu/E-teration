@@ -19,7 +19,11 @@
             android:id="@+id/detailFragment"
             android:name="com.mtsapps.eteration.presentation.detail.DetailFragment"
             android:label="fragment_detail"
-            tools:layout="@layout/fragment_detail" />
+            tools:layout="@layout/fragment_detail" >
+            <argument
+                android:name="product"
+                app:argType="com.mtsapps.eteration.domain.models.Product" />
+        </fragment>
     </navigation>
 
     <fragment

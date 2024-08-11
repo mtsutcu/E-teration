@@ -6,6 +6,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mtsapps.eteration.commons.BaseFragment
@@ -37,7 +38,10 @@ class HomeFragment :
 
     override fun setupUI() {
         super.setupUI()
-        val homeAdapter = HomeProductsAdapter(context = requireContext())
+        val homeAdapter = HomeProductsAdapter(context = requireContext(), onAddToCartClick = {}){product->
+            val action = HomeFragmentDirections.actionNavigationHomeFragmentToDetailFragment(product)
+            findNavController().navigate(action)
+        }
         val recyclerView = binding.homeRecyclerview
         val gridLayoutManager = GridLayoutManager(activity, 2)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {

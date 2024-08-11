@@ -17,6 +17,7 @@
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_120sdp"
             android:contentDescription="null"
+            android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
