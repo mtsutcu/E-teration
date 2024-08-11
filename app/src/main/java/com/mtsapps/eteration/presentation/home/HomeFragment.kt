@@ -4,7 +4,7 @@ import ProductLoadStateAdapter
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -16,6 +16,7 @@ import com.mtsapps.eteration.commons.utils.changeVisibility
 import com.mtsapps.eteration.commons.utils.clickWithDebounce
 import com.mtsapps.eteration.commons.utils.hideKeyboard
 import com.mtsapps.eteration.databinding.FragmentHomeBinding
+import com.mtsapps.eteration.presentation.filter.FilterBottomSheetFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ class HomeFragment :
         FragmentHomeBinding::inflate
     ) {
 
-    override val viewModel: HomeViewModel by viewModels()
+    override val viewModel: HomeViewModel by activityViewModels()
 
     override fun handleEffect(effect: HomeUIEffect) {
         when (effect) {
@@ -115,6 +116,11 @@ class HomeFragment :
                     }
                     false
                 })
+            }
+            homeSelectFilterText.clickWithDebounce {
+                val filterBottomSheet = FilterBottomSheetFragment()
+                filterBottomSheet.show(parentFragmentManager, "FilterBottomSheet")
+
             }
 
         }
