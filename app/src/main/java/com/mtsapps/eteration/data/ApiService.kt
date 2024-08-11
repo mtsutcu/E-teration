@@ -10,5 +10,6 @@ interface ApiService {
     suspend fun getProducts(
         @Query("page") page: Int,
         @Query("limit") limit : Int,
+        @Query("filter") filter : String,
     ): Response<List<Product>>
 }

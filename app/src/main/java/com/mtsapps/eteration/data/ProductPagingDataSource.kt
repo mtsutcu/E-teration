@@ -7,12 +7,12 @@ import com.mtsapps.eteration.domain.models.Product
 import kotlinx.coroutines.delay
 
 
-class ProductPagingDataSource(private val apiService: ApiService) : PagingSource<Int, Product>(),ApiHandler {
+class ProductPagingDataSource(private val apiService: ApiService,private val filter : String) : PagingSource<Int, Product>(),ApiHandler {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> {
         delay(1000)
         val page = params.key ?: 1
         return try {
-            val response = apiService.getProducts(page = page, limit =params.loadSize)
+            val response = apiService.getProducts(page = page, limit =params.loadSize, filter = filter)
             val products = response.body() ?: emptyList()
             LoadResult.Page(
                 data = products,
