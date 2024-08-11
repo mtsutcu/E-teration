@@ -25,14 +25,18 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun loadInitialData() {
-        getProducts()
+        viewModelScope.launch {
+            delay(1000)
+            getProducts()
+        }
     }
 
     override fun handleEvent(event: HomeUIEvent) {
         when (event) {
             is HomeUIEvent.OnSetLoadingError -> setError(event.e)
             is HomeUIEvent.OnOpeningError -> setOpeningError()
-            HomeUIEvent.OnTryAgain -> loadInitialData()
+            is HomeUIEvent.OnTryAgain -> tryAgain()
+            is HomeUIEvent.OnSetFilterText -> setFilterText(event.text)
         }
     }
 
@@ -45,18 +49,31 @@ class HomeViewModel @Inject constructor(
     private fun getProducts(){
         viewModelScope.launch {
             setState { copy(isLoading = true, isError = false) }
-            delay(1000)
-            productRepositoryImpl.getProducts().flow.cancellable().cachedIn(viewModelScope).collect{
+            productRepositoryImpl.getProducts(filter = uiState.value.filterText).flow.cancellable().cachedIn(viewModelScope).collect{
                 setState { copy(productList = it, isLoading = false, isError = false) }
             }
         }
+    }
+    private fun tryAgain(){
+        viewModelScope.launch {
+            setState { copy(isLoading = true, isError = false) }
+            delay(1000)
+            productRepositoryImpl.getProducts(filter = uiState.value.filterText).flow.cancellable().cachedIn(viewModelScope).collect{
+                setState { copy(productList = it, isLoading = false, isError = false) }
+            }
+        }
+    }
+    private fun setFilterText(text:String){
+        setState { copy(filterText = text) }
+        getProducts()
     }
 }
 
 data class HomeUIState(
     val isLoading: Boolean = true,
     val isError: Boolean = false,
-    val productList: PagingData<Product> = PagingData.empty()
+    val productList: PagingData<Product> = PagingData.empty(),
+    val filterText : String=""
 ) :
     UIState
 
@@ -64,6 +81,8 @@ sealed class HomeUIEvent : UIEvent {
     data object OnOpeningError : HomeUIEvent()
     data class OnSetLoadingError(val e: Throwable) : HomeUIEvent()
     data object OnTryAgain : HomeUIEvent()
+    data class OnSetFilterText(val text : String) : HomeUIEvent()
+
 
 }
 

@@ -6,7 +6,7 @@ import com.mtsapps.eteration.domain.models.Product
 import com.mtsapps.eteration.domain.repository.ProductRepository
 
 class ProductRepositoryImpl(private val apiService: ApiService) : ProductRepository {
-    override suspend fun getProducts(): Pager<Int, Product> {
+    override suspend fun getProducts(filter : String): Pager<Int, Product> {
             return Pager(
                 config = PagingConfig(
                     pageSize = 4,
@@ -14,7 +14,7 @@ class ProductRepositoryImpl(private val apiService: ApiService) : ProductReposit
                     enablePlaceholders = true,
                     prefetchDistance = 1
                 ),
-                pagingSourceFactory = { ProductPagingDataSource(apiService = apiService) }
+                pagingSourceFactory = { ProductPagingDataSource(apiService = apiService, filter = filter) }
             )
         }
 

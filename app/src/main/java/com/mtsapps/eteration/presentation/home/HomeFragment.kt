@@ -1,6 +1,8 @@
 package com.mtsapps.eteration.presentation.home
 
 import ProductLoadStateAdapter
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -10,10 +12,12 @@ import com.mtsapps.eteration.commons.BaseFragment
 import com.mtsapps.eteration.commons.utils.GridSpacingItemDecoration
 import com.mtsapps.eteration.commons.utils.changeVisibility
 import com.mtsapps.eteration.commons.utils.clickWithDebounce
+import com.mtsapps.eteration.commons.utils.hideKeyboard
 import com.mtsapps.eteration.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class HomeFragment :
@@ -86,6 +90,18 @@ class HomeFragment :
                     viewModel.setEvent(HomeUIEvent.OnTryAgain)
                 }
             }
+            homeSearchbar.apply {
+                setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        viewModel.setEvent(HomeUIEvent.OnSetFilterText(v.text.toString()))
+                        clearFocus()
+                        hideKeyboard()
+                        return@OnEditorActionListener true
+                    }
+                    false
+                })
+            }
+
         }
 
     }
