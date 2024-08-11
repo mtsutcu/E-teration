@@ -70,11 +70,10 @@ dependencies {
     implementation (libs.gson)
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
-
+    implementation(libs.androidx.paging.runtime)
     kapt(libs.google.dagger.hilt.compiler)
     implementation(libs.google.dagger.hilt)
-
-
+    implementation(libs.glide)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
