@@ -10,6 +10,10 @@ interface ApiService {
     suspend fun getProducts(
         @Query("page") page: Int,
         @Query("limit") limit : Int,
-        @Query("filter") filter : String,
+        @Query("name") filter : String,
+        @Query("order") order : String,
+        @Query("brand") brand : String,
+        @Query("model") model : String,
+        @Query("sortBy") sortedBy : String
     ): Response<List<Product>>
 }

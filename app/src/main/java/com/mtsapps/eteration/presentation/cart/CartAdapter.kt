@@ -12,19 +12,19 @@ import com.mtsapps.eteration.databinding.CartItemBinding
 class CartAdapter(
     private val minusOnClick: (CartEntity) -> Unit,
     private val plusOnClick: (CartEntity) -> Unit
-) : ListAdapter<CartEntity, CartAdapter.ProductViewHolder>(CartDiffCallback()) {
+) : ListAdapter<CartEntity, CartAdapter.CartViewHolder>(CartDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val binding = CartItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ProductViewHolder(binding)
+        return CartViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val product = getItem(position)
-        holder.bind(product)
+    override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
+        val cartEntity = getItem(position)
+        holder.bind(cartEntity)
     }
 
-    inner class ProductViewHolder(private val binding: CartItemBinding) :
+    inner class CartViewHolder(private val binding: CartItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(cartEntity: CartEntity) {
             binding.apply {
