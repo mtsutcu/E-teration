@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/navigation_cart"
-        android:name="com.mtsapps.eteration.presentation.card.CartFragment"
+        android:name="com.mtsapps.eteration.presentation.cart.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" />
     <fragment

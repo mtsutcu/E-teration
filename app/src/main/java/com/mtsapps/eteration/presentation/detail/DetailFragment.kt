@@ -4,6 +4,7 @@ package com.mtsapps.eteration.presentation.detail
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mtsapps.eteration.commons.BaseFragment
+import com.mtsapps.eteration.commons.utils.clickWithDebounce
 import com.mtsapps.eteration.commons.utils.getImageFromUrl
 import com.mtsapps.eteration.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +33,9 @@ class DetailFragment : BaseFragment<FragmentDetailBinding,DetailUIEvent,DetailUI
             productDetailName.text = product?.name
             productDetailDescription.text = product?.description
             productDetailImage.getImageFromUrl(product?.image)
+            productDetailButton.clickWithDebounce {
+                product?.let { viewModel.setEvent(DetailUIEvent.OnAddCartEntity(product)) }
+            }
         }
     }
 

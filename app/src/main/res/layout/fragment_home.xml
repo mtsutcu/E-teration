@@ -15,7 +15,7 @@
      app:layout_constraintEnd_toEndOf="parent"
      app:layout_constraintStart_toStartOf="parent"
      app:layout_constraintTop_toTopOf="parent"
-     app:title="E-Market"
+     app:title="@string/e_market"
      app:titleTextAppearance="@style/MyToolbarBigTitleTextAppearance" />
 
  <androidx.appcompat.widget.AppCompatEditText

@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.mtsapps.eteration.commons.BaseFragment
 import com.mtsapps.eteration.commons.utils.GridSpacingItemDecoration
 import com.mtsapps.eteration.commons.utils.changeVisibility
@@ -33,15 +34,24 @@ class HomeFragment :
             is HomeUIEffect.ShowToast -> {
                 Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT).show()
             }
+
+            is HomeUIEffect.ShowSnackBar -> {
+                val snackBar = Snackbar.make(binding.root,effect.message,Snackbar.LENGTH_SHORT)
+                snackBar.show()
+            }
         }
     }
 
     override fun setupUI() {
         super.setupUI()
-        val homeAdapter = HomeProductsAdapter(context = requireContext(), onAddToCartClick = {}){product->
-            val action = HomeFragmentDirections.actionNavigationHomeFragmentToDetailFragment(product)
-            findNavController().navigate(action)
-        }
+        val homeAdapter =
+            HomeProductsAdapter(context = requireContext(), onAddToCartClick = { product ->
+                viewModel.setEvent(HomeUIEvent.OnAddCartEntity(product))
+            }) { product ->
+                val action =
+                    HomeFragmentDirections.actionNavigationHomeFragmentToDetailFragment(product)
+                findNavController().navigate(action)
+            }
         val recyclerView = binding.homeRecyclerview
         val gridLayoutManager = GridLayoutManager(activity, 2)
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -55,7 +65,8 @@ class HomeFragment :
         recyclerView.apply {
             layoutManager = gridLayoutManager
             addItemDecoration(GridSpacingItemDecoration(16, requireContext()))
-            adapter = homeAdapter.withLoadStateFooter(footer = ProductLoadStateAdapter { homeAdapter.retry() })
+            adapter =
+                homeAdapter.withLoadStateFooter(footer = ProductLoadStateAdapter { homeAdapter.retry() })
             setHasFixedSize(true)
         }
         lifecycleScope.launch {
