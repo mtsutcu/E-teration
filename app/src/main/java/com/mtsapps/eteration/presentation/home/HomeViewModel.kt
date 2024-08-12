@@ -3,17 +3,22 @@ package com.mtsapps.eteration.presentation.home
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import com.mtsapps.eteration.R
 import com.mtsapps.eteration.commons.BaseViewModel
 import com.mtsapps.eteration.commons.UIEffect
 import com.mtsapps.eteration.commons.UIEvent
 import com.mtsapps.eteration.commons.UIState
 import com.mtsapps.eteration.commons.utils.Constants
+import com.mtsapps.eteration.data.local.entity.FavoriteProduct
+import com.mtsapps.eteration.data.repository.FavouriteProductRepositoryImpl
 import com.mtsapps.eteration.data.repository.ProductRepositoryImpl
 import com.mtsapps.eteration.domain.models.Product
 import com.mtsapps.eteration.domain.use_cases.InsertCartEntityUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val productRepositoryImpl: ProductRepositoryImpl,
-    private val insertCartEntityUseCase: InsertCartEntityUseCase
+    private val insertCartEntityUseCase: InsertCartEntityUseCase,
+    private val favouriteProductRepositoryImpl: FavouriteProductRepositoryImpl
 ) : BaseViewModel<HomeUIEvent, HomeUIState, HomeUIEffect>() {
     override fun createInitialState(): HomeUIState {
         return HomeUIState()
@@ -44,7 +50,8 @@ class HomeViewModel @Inject constructor(
             is HomeUIEvent.OnSetSortFilterId -> setSortFilterId(event.id)
             is HomeUIEvent.OnSetBrandFilter -> setBrandFilter(event.brandList)
             is HomeUIEvent.OnSetModelFilter -> setModelFilter(event.modelList)
-            HomeUIEvent.OnAddFilters -> loadInitialData()
+            is HomeUIEvent.OnAddFilters -> loadInitialData()
+
         }
     }
 
@@ -66,8 +73,13 @@ class HomeViewModel @Inject constructor(
                 brand = handleSelectedFiltersList(uiState.value.brandFilterText),
                 model =handleSelectedFiltersList( uiState.value.modelFilterText),
                 order = handleSelectedSortedOrder(uiState.value.sortFilterId)
-            ).flow
-                .cachedIn(viewModelScope).collect {
+            ).flow.cachedIn(viewModelScope).combine(favouriteProductRepositoryImpl.getAllFavorites()) { pagingData, favoriteProducts ->
+                    pagingData.map { product ->
+                        val isFavorite = favoriteProducts.any { it.productId == product.id }
+                        product.copy(isFav = isFavorite)
+                    }
+                }
+                .collectLatest{
                     setState { copy(productList = it, isLoading = false, isError = false) }
                 }
         }
@@ -83,15 +95,19 @@ class HomeViewModel @Inject constructor(
                 brand = handleSelectedFiltersList(uiState.value.brandFilterText),
                 model =handleSelectedFiltersList( uiState.value.modelFilterText),
                 order = handleSelectedSortedOrder(uiState.value.sortFilterId)
-            ).flow
-                .cachedIn(viewModelScope).collect {
+            ).flow.cachedIn(viewModelScope).combine(favouriteProductRepositoryImpl.getAllFavorites()) { pagingData, favoriteProducts ->
+                pagingData.map { product ->
+                    val isFavorite = favoriteProducts.any { it.productId == product.id }
+                    product.copy(isFav = isFavorite)
+                }
+            }
+                .collectLatest{
                     setState { copy(productList = it, isLoading = false, isError = false) }
                 }
         }
     }
 
     private fun setFilterText(text: String) {
-        //setState { copy(searchFilterText = text,sortFilterId = R.id.filter_old_to_new, brandFilterText = emptyList(), modelFilterText = emptyList()) }
         setState { copy(searchFilterText = text)}
         getProducts()
     }
@@ -145,6 +161,7 @@ class HomeViewModel @Inject constructor(
             ""
         }
     }
+
 }
 
 data class HomeUIState(
@@ -170,6 +187,7 @@ sealed class HomeUIEvent : UIEvent {
     data class OnSetBrandFilter(val brandList: List<String>) : HomeUIEvent()
     data class OnSetModelFilter(val modelList: List<String>) : HomeUIEvent()
     data object OnAddFilters : HomeUIEvent()
+
 
 
 }

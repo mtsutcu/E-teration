@@ -37,7 +37,7 @@ class HomeFragment :
             }
 
             is HomeUIEffect.ShowSnackBar -> {
-                val snackBar = Snackbar.make(binding.root,effect.message,Snackbar.LENGTH_SHORT)
+                val snackBar = Snackbar.make(binding.root, effect.message, Snackbar.LENGTH_SHORT)
                 snackBar.show()
             }
         }
@@ -46,7 +46,7 @@ class HomeFragment :
     override fun setupUI() {
         super.setupUI()
         val homeAdapter =
-            HomeProductsAdapter(context = requireContext(), onAddToCartClick = { product ->
+            HomeProductsAdapter(onAddToCartClick = { product ->
                 viewModel.setEvent(HomeUIEvent.OnAddCartEntity(product))
             }) { product ->
                 val action =
@@ -68,14 +68,14 @@ class HomeFragment :
             addItemDecoration(GridSpacingItemDecoration(16, requireContext()))
             adapter =
                 homeAdapter.withLoadStateFooter(footer = ProductLoadStateAdapter { homeAdapter.retry() })
-            setHasFixedSize(true)
+                setHasFixedSize(true)
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState.collectLatest {
                 homeAdapter.submitData(it.productList)
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             homeAdapter.loadStateFlow.collectLatest { loadState ->
                 when {
                     loadState.refresh is LoadState.Error -> {
