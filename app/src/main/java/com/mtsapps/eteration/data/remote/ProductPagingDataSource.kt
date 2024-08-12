@@ -29,8 +29,9 @@ class ProductPagingDataSource(
                 sortedBy = sortedBy
             )
             val products = response.body() ?: emptyList()
+
             LoadResult.Page(
-                data = products,
+                data = products.map { it.toProduct() },
                 prevKey = if (page == 1) null else page - 1,
                 nextKey = if (products.isEmpty()) null else page + 1
             )

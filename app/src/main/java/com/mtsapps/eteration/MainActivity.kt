@@ -42,14 +42,27 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         observeBadgeCount()
+        observeFavCount()
     }
     private fun observeBadgeCount(){
-        lifecycleScope.launch {
+         lifecycleScope.launch {
             viewModel.badgeCount.collect {
                 if (it != 0) {
                     binding.navView.getOrCreateBadge(R.id.navigation_cart).number = it
                 }else{
                     binding.navView.removeBadge(R.id.navigation_cart)
+
+                }
+            }
+        }
+    }
+    private fun observeFavCount(){
+        lifecycleScope.launch {
+            viewModel.favcount.collect {
+                if (it != 0) {
+                    binding.navView.getOrCreateBadge(R.id.navigation_favourites).number = it
+                }else{
+                    binding.navView.removeBadge(R.id.navigation_favourites)
 
                 }
             }

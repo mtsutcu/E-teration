@@ -100,6 +100,16 @@
         android:text="@string/add_to_cart"
         app:layout_constraintBottom_toBottomOf="@+id/product_detail_price_text"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/product_detail_favourite_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:src="@drawable/favourite_selector"
+        app:layout_constraintEnd_toEndOf="@+id/product_detail_image"
+        app:layout_constraintTop_toTopOf="@+id/product_detail_image" />
     />
 
 
