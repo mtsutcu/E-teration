@@ -46,6 +46,7 @@ class CartFragment :
 
     override fun setupUI() {
         super.setupUI()
+        viewModel.setEvent(CartUIEvent.OnGetAllCarts)
         binding.apply {
             cartRecyclerview.apply {
                 layoutManager = LinearLayoutManager(requireContext())
