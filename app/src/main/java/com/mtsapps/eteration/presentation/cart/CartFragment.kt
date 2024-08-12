@@ -3,6 +3,7 @@ package com.mtsapps.eteration.presentation.cart
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.mtsapps.eteration.R
 import com.mtsapps.eteration.commons.BaseFragment
 import com.mtsapps.eteration.commons.utils.LinearSpacingItemDecoration
 import com.mtsapps.eteration.commons.utils.changeVisibility
@@ -21,13 +22,13 @@ class CartFragment :
     override fun handleEffect(effect: CartUIEffect) {
         when (effect) {
             is CartUIEffect.ShowSnackBar -> {
-                Snackbar.make(binding.root, effect.message, Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, resources.getText(R.string.complete_successful), Snackbar.LENGTH_LONG).show()
             }
         }
     }
 
     override fun observeState(state: CartUIState) {
-        val cartAdapter = CartAdapter(minusOnClick = {
+        val cartAdapter = CartAdapter(requireContext(),minusOnClick = {
             viewModel.setEvent(CartUIEvent.OnMinusCartCount(it))
         }, plusOnClick = {
             viewModel.setEvent(CartUIEvent.OnPlusCartCount(it))
@@ -37,7 +38,7 @@ class CartFragment :
             cartAdapter.submitList(state.cartList)
         }
         binding.apply {
-            cartTotalPriceText.text = state.totalPrice.toString()
+            cartTotalPriceText.text = "${state.totalPrice}${resources.getText(R.string.moneyIcon)}"
             cartCompleteButton.changeVisibility(!state.cartList.isNullOrEmpty())
             cartRecyclerview.adapter = cartAdapter
         }
@@ -50,9 +51,14 @@ class CartFragment :
                 layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(LinearSpacingItemDecoration(16, requireContext(), false))
             }
-            cartCompleteButton.clickWithDebounce {
-                viewModel.setEvent(CartUIEvent.OnCompleteCart)
-            }
+
+        }
+    }
+
+    override fun setupListeners() {
+        super.setupListeners()
+       binding.cartCompleteButton.clickWithDebounce {
+            viewModel.setEvent(CartUIEvent.OnCompleteCart)
         }
     }
 

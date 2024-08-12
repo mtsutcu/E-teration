@@ -135,7 +135,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         super.onStart()
         val bottomSheet =
             (dialog as BottomSheetDialog?)!!.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
-
         if (bottomSheet != null) {
             BottomSheetBehavior.from(bottomSheet).state = BottomSheetBehavior.STATE_EXPANDED
             BottomSheetBehavior.from(bottomSheet).skipCollapsed = true
@@ -143,10 +142,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
             layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
             bottomSheet.layoutParams = layoutParams
         }
-        /* dialog!!.window!!.setFlags(
-             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-         )*/
     }
     override fun onDestroyView() {
         super.onDestroyView()

@@ -37,14 +37,14 @@ private val favouriteProductRepositoryImpl: FavouriteProductRepositoryImpl
    private fun addCartEntity() {
        viewModelScope.launch {
            uiState.value.product?.let { insertCartEntityUseCase(it)
-               setEffect { DetailUIEffect.ShowSnackBar("${it.brand} added into cart") }
+               setEffect { DetailUIEffect.ShowSnackBarCart("${it.brand}") }
            }
        }
    }
     private fun addFavourite(){
         viewModelScope.launch {
             favouriteProductRepositoryImpl.insert(FavoriteProduct(productId = uiState.value.product?.id!!, image = uiState.value.product?.image!!, price = uiState.value.product?.price!!, name = uiState.value.product?.brand!!))
-            setEffect { DetailUIEffect.ShowSnackBar("${uiState.value.product?.brand} added into fav") }
+            setEffect { DetailUIEffect.ShowSnackBarFav("${uiState.value.product?.brand}") }
 
         }
     }
@@ -87,5 +87,6 @@ sealed class DetailUIEvent : UIEvent {
     data class OnSetProduct(val product: Product) : DetailUIEvent()
 }
 sealed class DetailUIEffect : UIEffect {
-    data class ShowSnackBar(val message: String) : DetailUIEffect()
+    data class ShowSnackBarCart(val message: String) : DetailUIEffect()
+    data class ShowSnackBarFav(val message: String) : DetailUIEffect()
 }

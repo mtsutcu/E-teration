@@ -55,7 +55,7 @@ class CartViewModel @Inject constructor(
     private fun completeCart(){
         viewModelScope.launch {
             completeCartUseCase()
-            setEffect { CartUIEffect.ShowSnackBar("Complete Successful") }
+            setEffect { CartUIEffect.ShowSnackBar }
         }
     }
     private fun minusCartEntityCount(cartEntity: CartEntity){
@@ -87,5 +87,5 @@ sealed class CartUIEvent : UIEvent {
 }
 
 sealed class CartUIEffect : UIEffect {
-    data class ShowSnackBar(val message: String) : CartUIEffect()
+    data object ShowSnackBar: CartUIEffect()
 }

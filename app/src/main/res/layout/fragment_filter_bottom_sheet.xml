@@ -41,8 +41,8 @@
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:fontFamily="@font/montserrat_light"
-                android:text="Sort By"
-                android:textSize="12sp"
+                android:text="@string/sort_by"
+                android:textSize="@dimen/textSizeExtraSmall"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/filter_toolbar" />
 
@@ -58,28 +58,28 @@
                     style="@style/RadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Old to new" />
+                    android:text="@string/old_to_new" />
 
                 <RadioButton
                     android:id="@+id/filter_new_to_old"
                     style="@style/RadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="New to old" />
+                    android:text="@string/new_to_old" />
 
                 <RadioButton
                     android:id="@+id/filter_price_low_to_high"
                     style="@style/RadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Price low to high" />
+                    android:text="@string/price_low_to_high" />
 
                 <RadioButton
                     android:id="@+id/filter_price_high_to_low"
                     style="@style/RadioButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Price high to low" />
+                    android:text="@string/price_high_to_low" />
             </RadioGroup>
 
             <com.google.android.material.divider.MaterialDivider
@@ -100,8 +100,8 @@
                 android:layout_marginStart="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:fontFamily="@font/montserrat_light"
-                android:text="Brand"
-                android:textSize="12sp"
+                android:text="@string/brand"
+                android:textSize="@dimen/textSizeExtraSmall"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialDivider" />
 
@@ -141,8 +141,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_16sdp"
                 android:fontFamily="@font/montserrat_light"
-                android:text="Model"
-                android:textSize="12sp"
+                android:text="@string/model"
+                android:textSize="@dimen/textSizeExtraSmall"
                 app:layout_constraintStart_toStartOf="@+id/filter_brand_text"
                 app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />
 
@@ -178,10 +178,10 @@
         android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/main_button_background"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Primary"
+        android:text="@string/primary"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="@dimen/textSizeExtraSmall"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

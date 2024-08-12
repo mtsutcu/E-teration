@@ -21,13 +21,11 @@
 
     <ImageView
         android:id="@+id/product_detail_image"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_16sdp"
         android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_detail_toolbar"
         tools:src="@tools:sample/avatars" />
@@ -36,21 +34,20 @@
         android:id="@+id/product_detail_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_16sdp"
         android:fontFamily="@font/montserrat_bold"
         android:textSize="@dimen/textSizeExtraLarge"
-        app:layout_constraintEnd_toEndOf="@+id/product_detail_image"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="@+id/product_detail_image"
-        app:layout_constraintTop_toBottomOf="@+id/product_detail_image" />
+        app:layout_constraintStart_toEndOf="@+id/product_detail_image"
+        app:layout_constraintTop_toTopOf="@+id/product_detail_image" />
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginVertical="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_16sdp"
         app:layout_constraintBottom_toTopOf="@+id/product_detail_button"
-        app:layout_constraintEnd_toEndOf="@+id/product_detail_name"
-        app:layout_constraintStart_toStartOf="@+id/product_detail_name"
+        app:layout_constraintEnd_toEndOf="@+id/product_detail_button"
+        app:layout_constraintStart_toEndOf="@+id/product_detail_image"
         app:layout_constraintTop_toBottomOf="@+id/product_detail_name">
 
         <TextView
@@ -94,10 +91,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_16sdp"
         android:background="@drawable/main_button_background"
-        android:minHeight="0dp"
-        android:textSize="@dimen/textSizeLarge"
         android:fontFamily="@font/montserrat_bold"
+        android:minHeight="0dp"
         android:text="@string/add_to_cart"
+        android:textSize="@dimen/textSizeLarge"
         app:layout_constraintBottom_toBottomOf="@+id/product_detail_price_text"
         app:layout_constraintEnd_toEndOf="parent" />
 

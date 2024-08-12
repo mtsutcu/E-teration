@@ -23,11 +23,12 @@
      style="@style/SearchBarStyle"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
-     android:imeOptions="actionSearch"
-     android:inputType="textCapSentences"
      android:layout_marginStart="@dimen/_16sdp"
      android:layout_marginTop="@dimen/_14sdp"
      android:layout_marginEnd="@dimen/_16sdp"
+     android:imeOptions="actionSearch"
+     android:inputType="textCapSentences"
+     android:visibility="gone"
      app:layout_constraintEnd_toEndOf="parent"
      app:layout_constraintHorizontal_bias="0.5"
      app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +42,7 @@
      android:fontFamily="@font/montserrat_bold"
      android:text="@string/filters"
      android:textSize="@dimen/textSizeMedium"
+     android:visibility="gone"
      app:layout_constraintBottom_toBottomOf="@+id/homeSelectFilterText"
      app:layout_constraintStart_toStartOf="@+id/homeSearchbar"
      app:layout_constraintTop_toTopOf="@+id/homeSelectFilterText" />
@@ -56,6 +58,7 @@
      android:paddingVertical="@dimen/_4sdp"
      android:text="@string/select_filter"
      android:textSize="@dimen/textSizeSmall"
+     android:visibility="gone"
      app:layout_constraintEnd_toEndOf="@+id/homeSearchbar"
      app:layout_constraintTop_toBottomOf="@+id/homeSearchbar" />
 
@@ -63,7 +66,6 @@
      android:id="@+id/homeRecyclerview"
      android:layout_width="match_parent"
      android:layout_height="0dp"
-     android:layout_marginTop="@dimen/_8sdp"
      android:visibility="visible"
      app:layout_constraintBottom_toBottomOf="parent"
      app:layout_constraintEnd_toEndOf="parent"

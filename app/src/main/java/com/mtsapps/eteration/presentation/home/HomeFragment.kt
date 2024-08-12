@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.mtsapps.eteration.R
 import com.mtsapps.eteration.commons.BaseFragment
 import com.mtsapps.eteration.commons.utils.GridSpacingItemDecoration
 import com.mtsapps.eteration.commons.utils.changeVisibility
@@ -33,7 +34,7 @@ class HomeFragment :
     override fun handleEffect(effect: HomeUIEffect) {
         when (effect) {
             is HomeUIEffect.ShowToast -> {
-                Toast.makeText(requireContext(), effect.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "${effect.message} ${resources.getText(R.string.added)}", Toast.LENGTH_SHORT).show()
             }
 
             is HomeUIEffect.ShowSnackBar -> {
@@ -46,7 +47,7 @@ class HomeFragment :
     override fun setupUI() {
         super.setupUI()
         val homeAdapter =
-            HomeProductsAdapter(onAddToCartClick = { product ->
+            HomeProductsAdapter(requireContext(),onAddToCartClick = { product ->
                 viewModel.setEvent(HomeUIEvent.OnAddCartEntity(product))
             }) { product ->
                 val action =

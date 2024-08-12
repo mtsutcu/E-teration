@@ -10,7 +10,6 @@ import com.mtsapps.eteration.commons.UIEffect
 import com.mtsapps.eteration.commons.UIEvent
 import com.mtsapps.eteration.commons.UIState
 import com.mtsapps.eteration.commons.utils.Constants
-import com.mtsapps.eteration.data.local.entity.FavoriteProduct
 import com.mtsapps.eteration.data.repository.FavouriteProductRepositoryImpl
 import com.mtsapps.eteration.data.repository.ProductRepositoryImpl
 import com.mtsapps.eteration.domain.models.Product
@@ -116,7 +115,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             insertCartEntityUseCase(product)
         }
-        setEffect { HomeUIEffect.ShowSnackBar(message = "${product.name} Added") }
+        setEffect { HomeUIEffect.ShowSnackBar(message = "${product.name}")}
     }
 
     private fun setSortFilterId(id: Int) {

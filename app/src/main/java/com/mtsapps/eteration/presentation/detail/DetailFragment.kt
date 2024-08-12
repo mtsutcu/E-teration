@@ -4,6 +4,7 @@ package com.mtsapps.eteration.presentation.detail
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.mtsapps.eteration.R
 import com.mtsapps.eteration.commons.BaseFragment
 import com.mtsapps.eteration.commons.utils.clickWithDebounce
 import com.mtsapps.eteration.commons.utils.getImageFromUrl
@@ -17,8 +18,11 @@ class DetailFragment : BaseFragment<FragmentDetailBinding,DetailUIEvent,DetailUI
 
     override fun handleEffect(effect: DetailUIEffect) {
         when(effect){
-            is DetailUIEffect.ShowSnackBar->{
-                Snackbar.make(binding.root,effect.message,Snackbar.LENGTH_LONG).show()
+            is DetailUIEffect.ShowSnackBarCart->{
+                Snackbar.make(binding.root,"${effect.message} ${resources.getText(R.string.added_into_cart)}",Snackbar.LENGTH_LONG).show()
+            }
+            is DetailUIEffect.ShowSnackBarFav->{
+                Snackbar.make(binding.root,"${effect.message} ${resources.getText(R.string.added_into_favs)}",Snackbar.LENGTH_LONG).show()
             }
         }
     }
@@ -45,7 +49,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding,DetailUIEvent,DetailUI
             productDetailToolbar.apply {
                 title = product.brand
             }
-            productDetailPriceText.text = product.price
+            productDetailPriceText.text = "${product.price}${resources.getText(R.string.moneyIcon)}"
             productDetailName.text = product.brand
             productDetailDescription.text = product.description
             productDetailImage.getImageFromUrl(product.image)

@@ -1,16 +1,19 @@
 package com.mtsapps.eteration.presentation.home
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.mtsapps.eteration.R
 import com.mtsapps.eteration.commons.utils.clickWithDebounce
 import com.mtsapps.eteration.commons.utils.getImageFromUrl
 import com.mtsapps.eteration.databinding.GridViewProductItemBinding
 import com.mtsapps.eteration.domain.models.Product
 
 class HomeProductsAdapter(
+    private val context: Context,
     private val onAddToCartClick: (Product) -> Unit,
     private val ontClick: (Product) -> Unit
 ) : PagingDataAdapter<Product, HomeProductsAdapter.ProductViewHolder>(
@@ -42,7 +45,7 @@ class HomeProductsAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(product: Product) {
             binding.apply {
-                productItemPrice.text = product.price
+                productItemPrice.text = "${product.price}${context.getText(R.string.moneyIcon)}"
                 productItemName.text = product.brand
                 productItemImage.getImageFromUrl(product.image)
                 productItemButton.clickWithDebounce {

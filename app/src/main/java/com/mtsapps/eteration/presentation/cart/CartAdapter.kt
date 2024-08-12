@@ -1,15 +1,18 @@
 package com.mtsapps.eteration.presentation.cart
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.mtsapps.eteration.R
 import com.mtsapps.eteration.commons.utils.clickWithDebounce
 import com.mtsapps.eteration.data.local.entity.CartEntity
 import com.mtsapps.eteration.databinding.CartItemBinding
 
 class CartAdapter(
+    private val context: Context,
     private val minusOnClick: (CartEntity) -> Unit,
     private val plusOnClick: (CartEntity) -> Unit
 ) : ListAdapter<CartEntity, CartAdapter.CartViewHolder>(CartDiffCallback()) {
@@ -29,7 +32,7 @@ class CartAdapter(
         fun bind(cartEntity: CartEntity) {
             binding.apply {
                 cartItemNameTitle.text = cartEntity.name
-                cartItemPriceText.text = cartEntity.price
+                cartItemPriceText.text = "${cartEntity.price}${context.getText(R.string.moneyIcon)}"
                 cartItemCountText.text = cartEntity.count.toString()
                 cartItemMinusButton.clickWithDebounce {
                     minusOnClick.invoke(cartEntity)
