@@ -40,6 +40,9 @@ class CartFragment :
         binding.apply {
             cartTotalPriceText.text = "${state.totalPrice}${resources.getText(R.string.moneyIcon)}"
             cartCompleteButton.changeVisibility(!state.cartList.isNullOrEmpty())
+            cartTotalTitle.changeVisibility(!state.cartList.isNullOrEmpty())
+            cartTotalPriceText.changeVisibility(!state.cartList.isNullOrEmpty())
+            cartEmptyText.changeVisibility(state.cartList.isNullOrEmpty())
             cartRecyclerview.adapter = cartAdapter
         }
     }

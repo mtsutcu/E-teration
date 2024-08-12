@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.mtsapps.eteration.R
 import com.mtsapps.eteration.commons.BaseFragment
 import com.mtsapps.eteration.commons.utils.LinearSpacingItemDecoration
+import com.mtsapps.eteration.commons.utils.changeVisibility
 import com.mtsapps.eteration.databinding.FragmentFavouritesBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,6 +16,7 @@ class FavouritesFragment : BaseFragment<FragmentFavouritesBinding,FavouritesUIEv
     override val viewModel: FavouritesViewModel by viewModels()
 
     override fun observeState(state: FavouritesUIState) {
+            binding.favouriteEmptyText.changeVisibility(state.favouriteList.isNullOrEmpty())
             state.favouriteList?.let {
                 favouriteAdapter.submitList(state.favouriteList)
             }

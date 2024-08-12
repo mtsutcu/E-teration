@@ -30,4 +30,6 @@
     <string name="added_into_favs">added into favs</string>
     <string name="complete_successful">Complete Successful</string>
     <string name="deleted">deleted</string>
+    <string name="profile_fragment">Profile Fragment</string>
+    <string name="empty">Empty</string>
 </resources>
