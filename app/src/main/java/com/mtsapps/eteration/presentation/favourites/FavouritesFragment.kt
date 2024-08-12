@@ -3,6 +3,7 @@ package com.mtsapps.eteration.presentation.favourites
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.mtsapps.eteration.R
 import com.mtsapps.eteration.commons.BaseFragment
 import com.mtsapps.eteration.commons.utils.LinearSpacingItemDecoration
 import com.mtsapps.eteration.databinding.FragmentFavouritesBinding
@@ -22,13 +23,14 @@ class FavouritesFragment : BaseFragment<FragmentFavouritesBinding,FavouritesUIEv
     override fun handleEffect(effect: FavouritesUIEffect) {
         when(effect){
             is FavouritesUIEffect.ShowSnackBar->{
-                Snackbar.make(binding.root,effect.message,Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root,"${effect.message} ${resources.getText(R.string.deleted)}",Snackbar.LENGTH_SHORT).show()
             }
         }
     }
 
     override fun setupUI() {
         super.setupUI()
+        viewModel.setEvent(FavouritesUIEvent.OnGetAllFavourites)
         favouriteAdapter = FavouriteProductAdapter {
             viewModel.setEvent(FavouritesUIEvent.OnDeleteFavourite(it))
         }

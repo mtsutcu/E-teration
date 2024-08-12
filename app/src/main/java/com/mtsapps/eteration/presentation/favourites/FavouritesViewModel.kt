@@ -23,35 +23,37 @@ class FavouritesViewModel @Inject constructor(
 
     override fun handleEvent(event: FavouritesUIEvent) {
         when (event) {
-            is FavouritesUIEvent.OnDeleteFavourite ->{deleteFavourite(event.favoriteProduct)}
+            is FavouritesUIEvent.OnGetAllFavourites -> getAllFavourites()
+            is FavouritesUIEvent.OnDeleteFavourite -> {
+                deleteFavourite(event.favoriteProduct)
+            }
         }
     }
 
-    override fun loadInitialData() {
-        super.loadInitialData()
-        getAllFavourites()
+
+    private fun getAllFavourites() {
+        viewModelScope.launch {
+            favouriteProductRepositoryImpl.getAllFavorites().collect {
+                setState { copy(favouriteList = it) }
+            }
+        }
     }
-   private fun getAllFavourites() {
-       viewModelScope.launch {
-           favouriteProductRepositoryImpl.getAllFavorites().collect{
-               setState { copy(favouriteList = it) }
-           }
-       }
-   }
-    private fun deleteFavourite(favoriteProduct: FavoriteProduct){
+
+    private fun deleteFavourite(favoriteProduct: FavoriteProduct) {
         viewModelScope.launch {
             favouriteProductRepositoryImpl.delete(favoriteProduct.productId)
-            setEffect { FavouritesUIEffect.ShowSnackBar("${favoriteProduct.name} deleted") }
+            setEffect { FavouritesUIEffect.ShowSnackBar(favoriteProduct.name) }
         }
     }
 }
 
 data class FavouritesUIState(
-    val favouriteList :List<FavoriteProduct>? = null
+    val favouriteList: List<FavoriteProduct>?=null
 ) :
     UIState
 
 sealed class FavouritesUIEvent : UIEvent {
+    data object OnGetAllFavourites : FavouritesUIEvent()
     data class OnDeleteFavourite(val favoriteProduct: FavoriteProduct) : FavouritesUIEvent()
 }
 

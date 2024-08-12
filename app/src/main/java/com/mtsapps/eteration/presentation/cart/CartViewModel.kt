@@ -28,58 +28,62 @@ class CartViewModel @Inject constructor(
 
     override fun handleEvent(event: CartUIEvent) {
         when (event) {
+            is CartUIEvent.OnGetAllCarts -> getAllCarts()
             is CartUIEvent.OnAddCartEntity -> addCart(event.cartEntity)
-            CartUIEvent.OnCompleteCart -> completeCart()
+            is CartUIEvent.OnCompleteCart -> completeCart()
             is CartUIEvent.OnMinusCartCount -> minusCartEntityCount(event.cartEntity)
             is CartUIEvent.OnPlusCartCount -> plusCartEntityCount(event.cartEntity)
         }
     }
-    override fun loadInitialData() {
-        super.loadInitialData()
-        getAllCarts()
-    }
-  private fun getAllCarts() {
-      viewModelScope.launch {
-          getAllCartEntitiesUseCase().collect{
-              val totalPrice = it.sumOf {cartEntity -> cartEntity.totalPrice   }
-              setState { copy(cartList = it, totalPrice = totalPrice.toInt()) }
-          }
 
-      }
-  }
-    private fun addCart(cartEntity: CartEntity){
+
+    private fun getAllCarts() {
+        viewModelScope.launch {
+            getAllCartEntitiesUseCase().collect {
+                val totalPrice = it.sumOf { cartEntity -> cartEntity.totalPrice }
+                setState { copy(cartList = it, totalPrice = totalPrice.toInt()) }
+            }
+
+        }
+    }
+
+    private fun addCart(cartEntity: CartEntity) {
         viewModelScope.launch {
             updateCartEntityUseCase(cartEntity)
         }
     }
-    private fun completeCart(){
+
+    private fun completeCart() {
         viewModelScope.launch {
             completeCartUseCase()
             setEffect { CartUIEffect.ShowSnackBar }
         }
     }
-    private fun minusCartEntityCount(cartEntity: CartEntity){
+
+    private fun minusCartEntityCount(cartEntity: CartEntity) {
         viewModelScope.launch {
-            if (cartEntity.count>1){
-                updateCartEntityUseCase(cartEntity.copy(count = cartEntity.count-1))
-            }else{
+            if (cartEntity.count > 1) {
+                updateCartEntityUseCase(cartEntity.copy(count = cartEntity.count - 1))
+            } else {
                 deleteCartEntityUseCase(cartEntity)
             }
         }
     }
-    private fun plusCartEntityCount(cartEntity: CartEntity){
+
+    private fun plusCartEntityCount(cartEntity: CartEntity) {
         viewModelScope.launch {
-            updateCartEntityUseCase(cartEntity.copy(count = cartEntity.count+1))
+            updateCartEntityUseCase(cartEntity.copy(count = cartEntity.count + 1))
         }
     }
 }
 
 data class CartUIState(
-    val cartList : List<CartEntity>? = null,
-    val totalPrice : Int =0
+    val cartList: List<CartEntity>? = null,
+    val totalPrice: Int = 0
 ) : UIState
 
 sealed class CartUIEvent : UIEvent {
+    data object OnGetAllCarts : CartUIEvent()
     data class OnAddCartEntity(val cartEntity: CartEntity) : CartUIEvent()
     data object OnCompleteCart : CartUIEvent()
     data class OnMinusCartCount(val cartEntity: CartEntity) : CartUIEvent()
@@ -87,5 +91,5 @@ sealed class CartUIEvent : UIEvent {
 }
 
 sealed class CartUIEffect : UIEffect {
-    data object ShowSnackBar: CartUIEffect()
+    data object ShowSnackBar : CartUIEffect()
 }

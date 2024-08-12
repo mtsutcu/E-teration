@@ -46,6 +46,7 @@ class HomeFragment :
 
     override fun setupUI() {
         super.setupUI()
+        viewModel.setEvent(HomeUIEvent.OnGetAllProducts)
         val homeAdapter =
             HomeProductsAdapter(requireContext(),onAddToCartClick = { product ->
                 viewModel.setEvent(HomeUIEvent.OnAddCartEntity(product))

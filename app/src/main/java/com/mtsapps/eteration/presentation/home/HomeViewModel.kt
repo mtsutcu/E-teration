@@ -32,15 +32,10 @@ class HomeViewModel @Inject constructor(
         return HomeUIState()
     }
 
-    override fun loadInitialData() {
-        viewModelScope.launch {
-            delay(1000)
-            getProducts()
-        }
-    }
 
     override fun handleEvent(event: HomeUIEvent) {
         when (event) {
+            HomeUIEvent.OnGetAllProducts -> getProducts()
             is HomeUIEvent.OnSetLoadingError -> setError(event.e)
             is HomeUIEvent.OnOpeningError -> setOpeningError()
             is HomeUIEvent.OnTryAgain -> tryAgain()
@@ -49,8 +44,7 @@ class HomeViewModel @Inject constructor(
             is HomeUIEvent.OnSetSortFilterId -> setSortFilterId(event.id)
             is HomeUIEvent.OnSetBrandFilter -> setBrandFilter(event.brandList)
             is HomeUIEvent.OnSetModelFilter -> setModelFilter(event.modelList)
-            is HomeUIEvent.OnAddFilters -> loadInitialData()
-
+            is HomeUIEvent.OnAddFilters -> getProducts()
         }
     }
 
@@ -177,6 +171,7 @@ data class HomeUIState(
     UIState
 
 sealed class HomeUIEvent : UIEvent {
+    data object OnGetAllProducts : HomeUIEvent()
     data object OnOpeningError : HomeUIEvent()
     data class OnSetLoadingError(val e: Throwable) : HomeUIEvent()
     data object OnTryAgain : HomeUIEvent()
