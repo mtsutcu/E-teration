@@ -2,7 +2,6 @@ package com.mtsapps.eteration.data.remote
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.mtsapps.eteration.commons.ApiHandler
 import com.mtsapps.eteration.domain.models.Product
 import kotlinx.coroutines.delay
 
@@ -14,7 +13,7 @@ class ProductPagingDataSource(
     private val brand: String,
     private val model: String,
     private val sortedBy: String
-) : PagingSource<Int, Product>(), ApiHandler {
+) : PagingSource<Int, Product>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> {
         delay(1000)
         val page = params.key ?: 1
